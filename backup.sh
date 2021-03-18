@@ -2,8 +2,6 @@
 #
 # ----- Config start -----
 timestamp=`date +%Y%m%d%H%M%S`
-cat $PAYLOAD_FILE
-set
 
 if [ -z "$DB_HOST" ]; then
     echo "DB_HOST environment variable not found..."
