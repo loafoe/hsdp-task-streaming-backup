@@ -65,7 +65,7 @@ echo     Destination: ${s3_bucket}/${outfile}
 echo Processing...
 echo "$DB_HOST:$DB_PORT:$DB_NAME:$DB_USER:$DB_PASSWORD" > ~/.pgpass
 chmod 600 ~/.pgpass
-echo -e "${DB_USER}\n${DB_PASSWORD}" | /app/mc alias set dest https://${S3_ENDPOINT} --api "s3v4" --path "off"
+echo -e "${AWS_ACCESS_KEY_ID}\n${AWS_SECRET_ACCESS_KEY}" | /app/mc alias set dest https://${S3_ENDPOINT} --api "s3v4" --path "off"
 
 echo Backing up stream to s3://${S3_BUCKET}/${outfile} ...
 time pg_dump -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} ${DB_NAME} | gzip | /app/mc pipe dest/${S3_BUCKET}/${outfile}
