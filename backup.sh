@@ -55,7 +55,7 @@ if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
     exit 1
 fi
 
-outfile=${BACKUP_NAME}-${timestamp}.gz.aes
+outfile=${BACKUP_NAME}-${timestamp}.gz
 
 echo Using configuration
 echo -------------------
