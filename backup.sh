@@ -2,6 +2,7 @@
 #
 # ----- Config start -----
 timestamp=`date +%Y%m%d%H%M%S`
+set
 
 if [ -z "$DB_HOST" ]; then
     echo "DB_HOST environment variable not found..."
