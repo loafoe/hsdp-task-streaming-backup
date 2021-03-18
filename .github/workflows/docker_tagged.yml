@@ -40,6 +40,7 @@ jobs:
           file: ./docker/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: philipslabs/hsdp-function-streaming-backup:${{ steps.vars.outputs.tag }} -
+          tags: philipslabs/hsdp-function-streaming-backup:${{ steps.vars.outputs.tag }}
+      -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
