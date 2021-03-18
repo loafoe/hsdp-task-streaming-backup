@@ -25,11 +25,6 @@ if [ -z "$DB_PASSWORD" ]; then
     exit 1
 fi
 
-if [ -z "$DB_SERVICE" ]; then
-    echo "DB_SERVICE environment variable not found..."
-    exit 1
-fi
-
 if [ -z "$BACKUP_NAME" ]; then
     echo "BACKUP_NAME environment variable not found..."
     exit 1
@@ -68,6 +63,6 @@ echo     S3 Bucket: ${s3_bucket}
 echo Processing...
 echo "$DB_HOST:$DB_PORT:$DB_NAME:$DB_USER:$DB_PASSWORD:$DB_SERVICE" > ~/.pgpass
 
-outfile=${DB_SERVICE}-${timestamp}.gz.aes
+outfile=${BACKUP_NAME}-${timestamp}.gz.aes
 echo Backing up stream to s3://${S3_BUCKET}/${OUTFILE} ...
 time pg_dump -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} ${DB_NAME} | gzip | /app/gof3r put -b ${S3_BUCKET} -k ${OUTFILE} --no-md5
