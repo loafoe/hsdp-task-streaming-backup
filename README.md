@@ -4,21 +4,49 @@ A Docker image that you can schedule on HSDP IronIO to perform PostgreSQL backup
 
 # Features
 - Streaming backups so not dependent on runner disk storage
-- Compresses and encrypts backups
+- Compresses backups
 
 # Usage
 
 ```hcl
+module "siderite_backend" {
+  source = "philips-labs/siderite-backend/cloudfoundry"
+
+  cf_region   = "eu-west"
+  cf_org_name = "hsdp-demo-org"
+  cf_user     = var.cf_user
+  iron_plan   = "medium-encrypted-4GB"
+}
+
+resource "hsdp_function" "psql_backup" {
+  name         = "psql_backup"
+  docker_image = "philipslabs/hsdp-function-streaming-backup:v0.1.0"
+  command      = ["/app/backup.sh"]
+
+  environment = {
+    DB_HOST               = "postgres-xxx.eu-west-1.rds.amazonaws.com"
+    DB_PORT               = "5432"
+    DB_USER               = "[REDACTED]"
+    DB_PASSWORD           = "[REDACTED]"
+    DB_NAME               = "mydb"
+
+    BACKUP_NAME           = "backups/mydb"
+    S3_ENDPOINT           = "s3-eu-west-1.amazonaws.com"
+    S3_BUCKET             = "cf-s3-xxx"
+    AWS_ACCESS_KEY_ID     = "[REDACTED]"
+    AWS_SECRET_ACCESS_KEY = "[REDACTED]"
+  }
+
+  schedule {
+    run_every = "7d"
+  }
+
+  backend {
+    type        = "siderite"
+    credentials = module.siderite_backend.credentials
+  }
+}
 ```
-
-### AWS_ACCESS_KEY_ID
-This should be the `api_key` of the HSDP S3 Bucket you provisioned
-
-### AWS_SECRET_ACCESS_KEY
-This should be the `secret_key` of the HSDP S3 Bucket you provisioned
-
-### S3_BUCKET
-This should be the `bucket` of the HSDP S3 Bucket you provisioned
 
 # Bucket lifecycle policy
 It is advised to set a S3 Bucket lifecycle policy. A good practice is to move your database backups to the `GLACIER` storage class after a couple of days and to set a expiration date to automatically delete older backups. The below policy moves dumps to `CLACIER` after 7 days and deletes them after 6 months (180 days)
