@@ -10,4 +10,4 @@ RUN chmod +x /app/backup.sh
 COPY --from=minio /usr/bin/mc /app/mc
 COPY --from=siderite /app/siderite /app/siderite
 
-ENTRYPOINT ["/app/siderite","runner"]
+ENTRYPOINT ["/app/siderite", "function"]
