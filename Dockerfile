@@ -1,6 +1,6 @@
 FROM minio/mc AS minio
 
-FROM philipslabs/siderite:v0.4.5 AS siderite
+FROM philipslabs/siderite:v0.5.2 AS siderite
 
 FROM alpine:latest
 RUN apk add --no-cache git openssh openssl bash postgresql-client
