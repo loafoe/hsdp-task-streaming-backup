@@ -42,7 +42,6 @@ resource "hsdp_function" "psql_backup" {
   }
 
   backend {
-    type        = "siderite"
     credentials = module.siderite_backend.credentials
   }
 }
