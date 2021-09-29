@@ -1,4 +1,4 @@
-# hsdp-function-streaming-backup
+# hsdp-task-streaming-backup
 
 A Docker image that you can schedule on HSDP IronIO to perform PostgreSQL backups to an S3 bucket
 
