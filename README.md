@@ -20,7 +20,7 @@ module "siderite_backend" {
 
 resource "hsdp_function" "psql_backup" {
   name         = "psql_backup"
-  docker_image = "philipslabs/hsdp-function-streaming-backup:v0.1.0"
+  docker_image = "philipslabs/hsdp-task-streaming-backup:v0.2.0"
   command      = ["/app/backup.sh"]
 
   environment = {
